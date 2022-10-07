@@ -25,7 +25,7 @@ app.set("port", port);
 
 userRoutes(app);
 
-server.listen(3000, "192.168.100.7" || "localhost", function () {
+server.listen(3000, "158.101.22.221" || "localhost", function () {
   console.log("Aplicacion de NodeJS " + port + " Iniciada...");
 });
 
