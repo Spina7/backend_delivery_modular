@@ -9,9 +9,6 @@ module.exports = {
     const password = req.body.password;
 
     User.findByEmail(email, async (err, myUser) => {
-      console.log("Error ", err);
-      console.log("USUARIO ", myUser);
-
       if (err) {
         return res.status(501).json({
           success: false,
