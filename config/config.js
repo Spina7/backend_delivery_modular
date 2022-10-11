@@ -1,6 +1,8 @@
 const mysql = require("mysql");
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
+  connectionLimit: 10,
+  acquireTimeout: 10000,
   host: "158.101.22.221",
   user: "root",
   password: "phoenixKz7n00.",
@@ -8,7 +10,7 @@ const db = mysql.createConnection({
   port: "9090",
 });
 
-db.connect(function (err) {
+db.query("SELECT 1 + 1 AS solution", function (err) {
   if (err) throw err;
   console.log("Conectado a la base de datos");
 });

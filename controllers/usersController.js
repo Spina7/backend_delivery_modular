@@ -35,7 +35,7 @@ module.exports = {
         );
 
         const data = {
-          id: myUser.id,
+          id: String(myUser.id),
           name: myUser.name,
           lastname: myUser.lastname,
           email: myUser.email,
