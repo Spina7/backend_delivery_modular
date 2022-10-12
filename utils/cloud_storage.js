@@ -39,18 +39,15 @@ module.exports = (file, pathImage, deletePathImage) => {
     if (pathImage) {
       if (pathImage != null || pathImage != undefined) {
         let fileUpload = bucket.file(`${pathImage}`);
-        let stream = fileUpload.createWriteStream();
-        const blobStream = stream.pipe(
-          fileUpload.createWriteStream({
+        const blobStream = fileUpload.createWriteStream({
+          metadata: {
+            contentType: "image/png",
             metadata: {
-              contentType: "image/png",
-              metadata: {
-                firebaseStorageDownloadTokens: uuid,
-              },
+              firebaseStorageDownloadTokens: uuid,
             },
-            resumable: false,
-          })
-        );
+          },
+          resumable: false,
+        });
 
         blobStream.on("error", (error) => {
           console.log("Error al subir archivo a firebase", error);
