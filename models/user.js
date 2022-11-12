@@ -6,7 +6,7 @@ const User = {};
 User.findById = (id, result) => {
   const sql = `
   SELECT
-      U.id,
+      CONVERT(U.id, char) AS id,
       U.email, 
       U.name,
       U.lastname,
@@ -32,7 +32,7 @@ User.findById = (id, result) => {
     ON 
       UHR.id_rol = R.id
     WHERE
-      id = ?
+      U.id = ?
     GROUP BY 
       U.id
   `;
@@ -134,5 +134,82 @@ User.create = async (user, result) => {
     }
   );
 };
+
+//ACTUALIZAR DATOS CASO 1 (Nombre, Apellido, Telefono, Imagen)
+User.update = (user, result) => {
+
+  const sql = `
+    UPDATE
+      users
+    SET
+      name = ?,
+      lastname = ?,
+      phone = ?,
+      image = ?,
+      updated_at = ?
+    WHERE
+      id  = ? 
+  `;
+
+  db.query(
+    sql,
+    [
+      user.name,
+      user.lastname,
+      user.phone,
+      user.image,
+      new Date(),
+      user.id
+    ],
+    (err, res) => {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        console.log("Usuario Actualizado", user.id);
+        result(null, user.id);
+      }
+    }
+  );
+
+}
+
+//ACTUALIZAR DATOS CASO 2 (Nombre, Apellido, Telefono)
+User.updateWithoutImage = (user, result) => {
+
+  const sql = `
+    UPDATE
+      users
+    SET
+      name = ?,
+      lastname = ?,
+      phone = ?,
+      updated_at = ?
+    WHERE
+      id  = ? 
+  `;
+
+  db.query(
+    sql,
+    [
+      user.name,
+      user.lastname,
+      user.phone,
+      new Date(),
+      user.id
+    ],
+    (err, res) => {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        console.log("Usuario Actualizado", user.id);
+        result(null, user.id);
+      }
+    }
+  );
+
+}
+
 
 module.exports = User;
