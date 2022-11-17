@@ -12,5 +12,5 @@ module.exports = (app, upload) => {
 
   //RUTAS TIPO PUT PARA ACTUALIZAR
   app.put("/api/users/update", upload.array("image", 1), usersController.updateWithImage);
-  app.post("/api/users/updateWithoutImage", usersController.updateWithoutImage);
+  app.put("/api/users/updateWithoutImage", usersController.updateWithoutImage);
 };
