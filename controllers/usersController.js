@@ -56,9 +56,9 @@ module.exports = {
         };
 
         return res.status(201).json({
-          success: true,
-          message: "El usuario fue autenticado",
-          data: data, // EL ID DEL NUEVO USUARIO QUE SE REGISTRO
+            success: true,
+            message: "El usuario fue autenticado",
+            data: data, // EL ID DEL NUEVO USUARIO QUE SE REGISTRO
         });
       } else {
         return res.status(401).json({
@@ -205,7 +205,7 @@ async updateWithoutImage(req, res) {
   const user = req.body; // CAPTURO LOS DATOS QUE ME ENVIE EL CLIENTE
 
 
-  User.updateWithoutImage(user, (err, data) => {  // EN ESTA PARTE EL USUARIO SE REGISTRA
+  User.updateWithoutImage(user, (err, data) => {  // EN ESTA PARTE EL USUARIO SE ACTUALIZA
 
     if (err) {
       return res.status(501).json({
