@@ -1,3 +1,4 @@
+//CREAR UNA NUEVA CATEGORIA(RESTAURANTE)
 const  db = require('../config/config');
 
 const Category = {};
