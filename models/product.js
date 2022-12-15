@@ -1,29 +1,28 @@
 //CREAR UN NUEVO PRODUCTO(RESTAURANTE)
-
-const  db = require('../config/config');
+const db = require('../config/config');
 
 const Product = {};
 
-Product.create = (product, result) => {   //CREAR UNA NUEVA CATEGORIA
+Product.create = (product, result) => {
 
     const sql = `
-        INSERT INTO
-            products(
-                name,
-                description,
-                price,
-                image1,
-                image2,
-                image3,
-                id_category,
-                created_at,
-                updated_at
-            )
-        VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO
+        products(
+            name,
+            description,
+            price,
+            image1,
+            image2,
+            image3,
+            id_category,
+            created_at,
+            updated_at   
+        )
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
-        sql,
+        sql, 
         [
             product.name,
             product.description,
@@ -37,11 +36,12 @@ Product.create = (product, result) => {   //CREAR UNA NUEVA CATEGORIA
         ],
         (err, res) => {
             if (err) {
-              console.log("Error:", err);
-              result(err, null);
-            } else {
-              console.log("Id de la nuevo producto:", res.insertId);
-              result(null, res.insertId);
+                console.log('Error:', err);
+                result(err, null);
+            }
+            else {
+                console.log('Id de la nuevo producto:', res.insertId);
+                result(null, res.insertId);
             }
         }
 
@@ -49,26 +49,26 @@ Product.create = (product, result) => {   //CREAR UNA NUEVA CATEGORIA
 
 }
 
-Product.update = (product, result) => {   //ACTUALIZAR UNA NUEVA CATEGORIA
+Product.update = (product, result) => {
 
     const sql = `
-        UPDATE
-            products
-        SET
-            name = ?,
-            description = ?,
-            price = ?,
-            iamge1 = ?,
-            iamge2 = ?,
-            iamge3 = ?,
-            id_category = ?,
-            updated_at = ?
-        WHERE
-            id = ?
+    UPDATE
+        products
+    SET
+        name = ?,
+        description = ?,
+        price = ?,
+        image1 = ?,
+        image2 = ?,
+        image3 = ?,
+        id_category = ?,
+        updated_at = ?
+    WHERE
+        id = ?
     `;
 
     db.query(
-        sql,
+        sql, 
         [
             product.name,
             product.description,
@@ -78,15 +78,16 @@ Product.update = (product, result) => {   //ACTUALIZAR UNA NUEVA CATEGORIA
             product.image3,
             product.id_category,
             new Date(),
-            product.id
+            product.id,
         ],
         (err, res) => {
             if (err) {
-              console.log("Error:", err);
-              result(err, null);
-            } else {
-              console.log("Id del producto actualizado:", product.id);
-              result(null, product.id);
+                console.log('Error:', err);
+                result(err, null);
+            }
+            else {
+                console.log('Id del producto actualizado:', product.id);
+                result(null, product.id);
             }
         }
 
@@ -95,5 +96,4 @@ Product.update = (product, result) => {   //ACTUALIZAR UNA NUEVA CATEGORIA
 }
 
 
-
-module.exports = Product;      //EXPORTAR EL OBJETO 
+module.exports = Product;

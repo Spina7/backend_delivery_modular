@@ -9,6 +9,6 @@ module.exports = (app, upload) => {
   // DELETE -> ELIMINAR DATOS
 
   //RUTA PARA CREAR UNA NUEVO PRODUCTO
-  app.post("/api/products/create", passport.authenticate('jwt', { session: false}), upload.array('image', 3), productsController.create);
+  app.post('/api/products/create',  passport.authenticate('jwt', { session: false }), upload.array('image', 3), productsController.create);
   
 };
