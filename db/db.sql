@@ -85,7 +85,7 @@ CREATE TABLE products(
 	id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(180) NOT NULL UNIQUE,
     description TEXT NOT NULL,
-    price DECIMAL,
+    price DECIMAL/* NOT NULL*/,
     image1 VARCHAR(255)  NULL,
     image2 VARCHAR(255)  NULL,
     image3 VARCHAR(255)  NULL,
