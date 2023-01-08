@@ -11,4 +11,7 @@ module.exports = (app, upload) => {
   //RUTA PARA CREAR UNA NUEVO PRODUCTO
   app.post('/api/products/create',  passport.authenticate('jwt', { session: false }), upload.array('image', 3), productsController.create);
   
+  //RUTA PARA MOSTRAR LOS PRODUCTOS
+  app.get('/api/products/findByCategory/:id_category',  passport.authenticate('jwt', { session: false }), productsController.findByCategory);
+
 };
