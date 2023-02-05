@@ -5,11 +5,11 @@ const mysql = require("mysql");
 const db = mysql.createPool({
   connectionLimit: 10,
   acquireTimeout: 10000,
-  host: "140.238.157.201",
-  user: "admin_envyc",
-  password: "phoenixKz7n00.",
-  database: "admin_delivery",
-  port: "3306",
+  host: "54.219.28.243",
+  user: "root",
+  password: "phoenixKz7294",
+  database: "delivery",
+  port: "32770",
 });
 
 //CONFIGURACION EDUARDO
