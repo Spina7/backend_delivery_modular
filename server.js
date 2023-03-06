@@ -14,6 +14,7 @@ const usersRoutes = require("./routes/userRoutes");
 const categoriesRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoutes");
 const addressRoutes = require("./routes/addressRoutes");
+const ordersRoutes = require("./routes/orderRoutes");
 
 const port = process.env.PORT || 3000;
 
@@ -46,6 +47,7 @@ usersRoutes(app, upload);
 categoriesRoutes(app);
 productRoutes(app, upload);
 addressRoutes(app);
+ordersRoutes(app);
 
 server.listen(3000, "0.0.0.0", function () {
   console.log("Aplicacion de NodeJS " + port + " Iniciada...");
