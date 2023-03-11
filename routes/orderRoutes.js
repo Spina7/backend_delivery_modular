@@ -12,5 +12,5 @@ module.exports = (app) => {
   app.post("/api/orders/create", passport.authenticate('jwt', { session: false}), OrdersController.create);
   
   //RUTA PARA MOSTRAR
-  //app.get("/api/categories/getAll", passport.authenticate('jwt', { session: false}), categoriesController.getAll);
+  app.get("/api/orders/findByStatus/:status", passport.authenticate('jwt', { session: false}), OrdersController.findByStatus);
 };

@@ -3,6 +3,32 @@ const OrderHasProducts = require('../models/order_has_products');
 
 module.exports = {
 
+    findByStatus(req, res){
+
+        const status = req.params.status;
+
+        Order.findByStatus(status, (err, data) => {
+
+            if (err) {  //VALIDACION EN CASO DE ERROR 
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al listar las ordenes",
+                    error: err
+                });
+            }
+
+            for(const d of data){
+                d.address = JSON.parse(d.address);
+                d.client = JSON.parse(d.client);
+                d.products = JSON.parse(d.products);
+            }
+
+            return res.status(201).json(data);
+
+        });
+
+    },
+
     async create(req, res) {
 
         const order = req.body;

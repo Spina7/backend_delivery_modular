@@ -19,8 +19,8 @@ User.findById = (id, result) => {
           'name', R.name,
           'image', R.image,
           'route', R.route
-          )
-        ) AS roles
+        )
+      ) AS roles
     FROM
       users AS U
     INNER JOIN 

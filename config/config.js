@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 
 //CONFIGURACION ORIGINAL (ONLINE)
-/*
+
 const db = mysql.createPool({
   connectionLimit: 10,
   acquireTimeout: 10000,
@@ -11,9 +11,9 @@ const db = mysql.createPool({
   database: "delivery",
   port: "32770",
 });
-*/
-//CONFIGURACION EDUARDO (LOCAL)
 
+//CONFIGURACION EDUARDO (LOCAL)
+/*
 const db = mysql.createPool({
   connectionLimit: 10,
   acquireTimeout: 10000,
@@ -23,7 +23,7 @@ const db = mysql.createPool({
   database: "delivery",
   //port: "3306",
 });
-
+*/
 
 db.query("SELECT 1 + 1 AS solution", function (err) {
   if (err) throw err;
