@@ -26,7 +26,8 @@ Order.findByStatus = (status, result) => {
 		        'id', CONVERT(U.id, char),
                 'name', U.name,
                 'lastname', U.lastname,
-                'image', U.image
+                'image', U.image,
+                'phone', U.phone
             ) AS client,
 	        JSON_ARRAYAGG(
 		        JSON_OBJECT(
