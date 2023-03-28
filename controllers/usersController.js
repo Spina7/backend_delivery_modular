@@ -8,6 +8,22 @@ const storage = require("../utils/cloud_storage");
 
 module.exports = {
 
+  findDeliveryMen(req, res){
+    User.findDeliveryMen((err, data) => {
+
+      if (err) {
+        return res.status(501).json({
+          success: false,
+          message: "Hubo un error al listar los repartidores",
+          error: err,
+        });
+      }
+
+      return res.status(201).json(data);      
+
+    });
+  },
+
   login(req, res) {   //CADA VEZ QUE EL USUARIO HACE LOGIN EN LA APP
 
     const email = req.body.email;
