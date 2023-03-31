@@ -215,7 +215,7 @@ User.findDeliveryMen = (result) => {
   
   const sql = `
     SELECT
-      CONVERT(U.id, char) AS id
+      CONVERT(U.id, char) AS id,
 	    U.email, 
 	    U.name,
 	    U.lastname,
