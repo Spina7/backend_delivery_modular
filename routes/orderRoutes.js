@@ -13,4 +13,7 @@ module.exports = (app) => {
   
   //RUTA PARA MOSTRAR
   app.get("/api/orders/findByStatus/:status", passport.authenticate('jwt', { session: false}), OrdersController.findByStatus);
+
+  //RUTA PARA ACTUALIZAR STATUS DESPACHADO
+  app.put("/api/orders/updateToDispatched", passport.authenticate('jwt', { session: false}), OrdersController.updateToDispatched);
 };

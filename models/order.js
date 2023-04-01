@@ -120,6 +120,37 @@ Order.create = (order, result) => {   //CREAR UNA NUEVA ORDEN
 
 }
 
+Order.updateToDispatched = (id_order, id_delivery, result) => {
+    const sql = `
+        UPDATE 
+            orders
+        SET
+            id_delivery = ?,
+            status = ?,
+            updated_at = ?
+        WHERE
+            id = ?
+    `;
+
+    db.query(
+        sql,
+        [
+            id_delivery,
+            'DESPACHADO',
+            new Date(),
+            id_order
+        ],
+        (err, res) => {
+            if (err) {
+              console.log("Error:", err);
+              result(err, null);
+            } else {
+              result(null, id_order);
+            }
+        }
+    )
+}
+
 
 
 module.exports = Order;      //EXPORTAR EL OBJETO 
