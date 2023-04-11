@@ -20,6 +20,35 @@ module.exports = {
             for(const d of data){
                 d.address = JSON.parse(d.address);
                 d.client = JSON.parse(d.client);
+                d.delivery = JSON.parse(d.delivery);
+                d.products = JSON.parse(d.products);
+            }
+
+            return res.status(201).json(data);
+
+        });
+
+    },
+
+    findByDeliveryAndStatus(req, res){
+
+        const id_delivery = req.params.id_delivery;
+        const status = req.params.status;
+
+        Order.findByDeliveryAndStatus(id_delivery, status, (err, data) => {
+
+            if (err) {  //VALIDACION EN CASO DE ERROR 
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al listar las ordenes",
+                    error: err
+                });
+            }
+
+            for(const d of data){
+                d.address = JSON.parse(d.address);
+                d.client = JSON.parse(d.client);
+                d.delivery = JSON.parse(d.delivery);
                 d.products = JSON.parse(d.products);
             }
 
@@ -69,6 +98,29 @@ module.exports = {
         const order = req.body;
 
         Order.updateToDispatched(order.id, order.id_delivery, (err, id_order) => {
+            if (err) {  //VALIDACION EN CASO DE ERROR 
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al actualizar la orden",
+                    error: err
+                });
+            }
+
+            return res.status(201).json({
+                success: true,
+                message: "La orden se actualizo correctamente",
+                data: `${id_order}`, // EL ID DE LA ORDEN
+            });
+
+        });
+    },
+
+    updateToOnTheWay(req, res) {
+        const order = req.body;
+
+        console.log('Order: ', order);
+
+        Order.updateToOnTheWay(order.id, (err, id_order) => {
             if (err) {  //VALIDACION EN CASO DE ERROR 
                 return res.status(501).json({
                     success: false,
