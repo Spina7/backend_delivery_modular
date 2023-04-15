@@ -287,6 +287,37 @@ Order.updateToOnTheWay = (id_order, result) => {
     )
 }
 
+Order.updateLatLng = (order, result) => {
+    const sql = `
+        UPDATE 
+            orders
+        SET
+            lat = ?,
+            lng = ?,
+            updated_at = ?
+        WHERE
+            id = ?
+    `;
+
+    db.query(
+        sql,
+        [
+            order.lat,
+            order.lng,
+            new Date(),
+            order.id
+        ],
+        (err, res) => {
+            if (err) {
+              console.log("Error:", err);
+              result(err, null);
+            } else {
+              result(null, order.id);
+            }
+        }
+    )
+}
+
 
 
 module.exports = Order;      //EXPORTAR EL OBJETO 

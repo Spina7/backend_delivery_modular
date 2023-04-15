@@ -136,6 +136,29 @@ module.exports = {
             });
 
         });
+    },
+
+    updateLatLng(req, res) {
+        const order = req.body;
+
+        console.log('Order: ', order);
+
+        Order.updateLatLng(order, (err, id_order) => {
+            if (err) {  //VALIDACION EN CASO DE ERROR 
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al actualizar la orden",
+                    error: err
+                });
+            }
+
+            return res.status(201).json({
+                success: true,
+                message: "La orden se actualizo correctamente",
+                data: `${id_order}`, // EL ID DE LA ORDEN
+            });
+
+        });
     }
 
 
