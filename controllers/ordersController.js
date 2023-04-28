@@ -58,6 +58,34 @@ module.exports = {
 
     },
 
+    findByClientAndStatus(req, res){
+
+        const id_client = req.params.id_client;
+        const status = req.params.status;
+
+        Order.findByClientAndStatus(id_client, status, (err, data) => {
+
+            if (err) {  //VALIDACION EN CASO DE ERROR 
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al listar las ordenes",
+                    error: err
+                });
+            }
+
+            for(const d of data){
+                d.address = JSON.parse(d.address);
+                d.client = JSON.parse(d.client);
+                d.delivery = JSON.parse(d.delivery);
+                d.products = JSON.parse(d.products);
+            }
+
+            return res.status(201).json(data);
+
+        });
+
+    },
+
     async create(req, res) {
 
         const order = req.body;
