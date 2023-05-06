@@ -32,7 +32,7 @@ module.exports = {
     User.findByEmail(email, async (err, myUser) => {  //BUSCAR POR EMAIL
 
       console.log("Error ", err);
-      console.log("USUARIO ", myUser);
+      //console.log("USUARIO ", myUser);
 
       if (err) {
         return res.status(501).json({
