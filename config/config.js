@@ -9,7 +9,7 @@ const db = mysql.createPool({
   user: "root",
   password: "phoenixKz7294",
   database: "delivery",
-  port: "32769",
+  port: "32768",
 });
 
 //CONFIGURACION EDUARDO (LOCAL)
