@@ -7,6 +7,11 @@ const cors = require("cors");
 const passport = require("passport");
 const multer = require("multer");
 const io = require("socket.io")(server);
+const mercadopago = require('mercadopago');
+mercadopago.configure({
+  sandbox: true,
+  access_token: 'TEST-2935131037484647-052100-f04940cd525ace2d2ee3785a8f3303fe-1379153754'
+});
 
 /*
  * IMPORTAR SOCKETS
@@ -22,6 +27,7 @@ const productRoutes = require("./routes/productRoutes");
 const addressRoutes = require("./routes/addressRoutes");
 const ordersRoutes = require("./routes/orderRoutes");
 const restaurantRoutes = require("./routes/restaurantRoutes");
+const mercadoPagoRoutes = require("./routes/mercadoPagoRoutes");
 
 const port = process.env.PORT || 3000;
 
@@ -62,6 +68,7 @@ productRoutes(app, upload);
 addressRoutes(app);
 ordersRoutes(app);
 restaurantRoutes(app);
+mercadoPagoRoutes(app);
 
 server.listen(3000, "0.0.0.0", function () {
   console.log("Aplicacion de NodeJS " + port + " Iniciada...");
