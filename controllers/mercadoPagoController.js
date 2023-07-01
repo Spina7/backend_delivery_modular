@@ -37,9 +37,8 @@ module.exports = {
             });
         });
 
-        if(data){
-            console.log('Los datos del cliente son correctos', data.response);
-        
+        if(data.body !== null && data.body !== undefined){
+
             const order = payment.order;
 
             Order.create(order, async (err, id) => {
@@ -67,16 +66,12 @@ module.exports = {
                 return res.status(201).json({
                     success: true,
                     message: "La orden se creo correctamente",
-                    data: `${id}`, // EL ID DE LA NUEVA ORDEN
+                    data: data.response
                 });
         
             });
 
-        }else{
-            return res.status(501).json({
-                success: false,
-                message: "Error con algun dato de la peticion",
-            });
+            
         }
     }
 
