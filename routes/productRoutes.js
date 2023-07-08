@@ -13,5 +13,6 @@ module.exports = (app, upload) => {
   
   //RUTA PARA MOSTRAR LOS PRODUCTOS
   app.get('/api/products/findByCategory/:id_category',  passport.authenticate('jwt', { session: false }), productsController.findByCategory);
+  app.get('/api/products/findByNameAndCategory/:id_category/:name',  passport.authenticate('jwt', { session: false }), productsController.findByNameAndCategory);
 
 };
