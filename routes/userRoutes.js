@@ -16,6 +16,7 @@ module.exports = (app, upload) => {
   //RUTAS TIPO PUT PARA ACTUALIZAR / RUTAS CON ACCESO RESTRINGIDO JSON WEB TOKEN
   app.put("/api/users/update", passport.authenticate('jwt', { session: false}), upload.array("image", 1), usersController.updateWithImage);
   app.put("/api/users/updateWithoutImage", passport.authenticate('jwt', { session: false}), usersController.updateWithoutImage);
+  app.put("/api/users/updateNotificationToken", passport.authenticate('jwt', { session: false}), upload.array("image", 1), usersController.updateNotificationToken);
 
   app.get("/api/users/findDeliveryMen", passport.authenticate('jwt', { session: false}), usersController.findDeliveryMen);
 };
