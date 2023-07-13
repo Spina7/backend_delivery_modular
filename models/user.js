@@ -13,6 +13,7 @@ User.findById = (id, result) => {
       U.image,
       U.phone,
       U.password,
+      U.notification_token,
       JSON_ARRAYAGG(
         JSON_OBJECT(
           'id', CONVERT(R.id, char),
