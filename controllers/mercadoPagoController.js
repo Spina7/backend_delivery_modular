@@ -1,7 +1,8 @@
 const mercadopago = require('mercadopago');
 const Order = require('../models/order');
 const OrderHasProducts = require('../models/order_has_products');
-
+const PushNotificationsController = require('../controllers/pushNotificationsController');
+const User = require('../models/user');
 
 mercadopago.configure({
     sandbox: true,
@@ -62,6 +63,28 @@ module.exports = {
                         }
                     });
                 }
+
+                User.findAdmins( (err, users) => {
+
+                    if (users !== undefined && users !== null) {  //VALIDACION EN CASO DE ERROR 
+                        
+                        if(users.lenght > 0){
+                            let tokens = [];
+                            users.forEach( u => {
+                                tokens.push(u.notification_token);
+                            });
+
+                            console.log('TOKENS', tokens);
+                            PushNotificationsController.sendNotificationToMultipleDevices(tokens, {
+                                title: 'COMPRA REALIZADA',
+                                body: 'Un cliente ha realizado una compra',
+                                id_notification: '2'
+                            });
+                        }
+                        
+                    }
+    
+                });
         
                 return res.status(201).json({
                     success: true,
