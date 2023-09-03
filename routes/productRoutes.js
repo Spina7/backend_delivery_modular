@@ -1,18 +1,30 @@
-const productsController = require("../controllers/productsController");
+/**
+ * Products Routes Module.
+ * 
+ * This module defines the routes related to product operations such as
+ * creating a new product, fetching products based on a category, and searching
+ * products by name within a category. All routes in this module require 
+ * authentication using JSON Web Tokens (JWT) for security. Additionally, 
+ * the creation route supports image uploads for products.
+ * 
+ */
 
+const productsController = require("../controllers/productsController");
 const passport = require("passport");
 
+/**
+ * Initializes the product-related routes.
+ * 
+ * @param {object} app - The express application instance.
+ * @param {object} upload - The multer middleware for handling file uploads.
+ */
 module.exports = (app, upload) => {
-  // GET -> OBTENER DATOS
-  // POST -> ALMACENAR DATOS
-  // PUT -> ACTUALIZAR DATOS
-  // DELETE -> ELIMINAR DATOS
-
-  //RUTA PARA CREAR UNA NUEVO PRODUCTO
+  // Route to create a new product with image uploads
   app.post('/api/products/create',  passport.authenticate('jwt', { session: false }), upload.array('image', 3), productsController.create);
   
-  //RUTA PARA MOSTRAR LOS PRODUCTOS
+  // Route to fetch products by category
   app.get('/api/products/findByCategory/:id_category',  passport.authenticate('jwt', { session: false }), productsController.findByCategory);
+  
+  // Route to search products by name within a specific category
   app.get('/api/products/findByNameAndCategory/:id_category/:name',  passport.authenticate('jwt', { session: false }), productsController.findByNameAndCategory);
-
 };

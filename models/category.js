@@ -1,9 +1,23 @@
-//CREAR UNA NUEVA CATEGORIA(RESTAURANTE)
-const  db = require('../config/config');
+/**
+ * Category Model.
+ * 
+ * This module manages the database operations related to restaurant categories.
+ * It provides functionalities such as retrieving all categories and adding a new category.
+ * 
+ * @module CategoryModel
+ * @author YourName (or your team/company name)
+ * @date 2023
+ */
 
+const db = require('../config/config');
 const Category = {};
 
-Category.getAll = (result) => {     //MOSTRAR TODAS LAS CATEGORIAS
+/**
+ * Fetches all categories from the database.
+ * 
+ * @param {function} result - Callback function to return the result.
+ */
+Category.getAll = (result) => {
     const sql = `
         SELECT
             CONVERT(id, char) AS id,
@@ -29,8 +43,13 @@ Category.getAll = (result) => {     //MOSTRAR TODAS LAS CATEGORIAS
     )
 }
 
-Category.create = (category, result) => {   //CREAR UNA NUEVA CATEGORIA
-
+/**
+ * Creates a new restaurant category in the database.
+ * 
+ * @param {object} category - The category object containing details like name and description.
+ * @param {function} result - Callback function to return the result.
+ */
+Category.create = (category, result) => {
     const sql = `
         INSERT INTO
             categories(
@@ -59,11 +78,7 @@ Category.create = (category, result) => {   //CREAR UNA NUEVA CATEGORIA
               result(null, res.insertId);
             }
         }
-
     )
-
 }
 
-
-
-module.exports = Category;      //EXPORTAR EL OBJETO 
+module.exports = Category; // Exporting the Category object for external usage.

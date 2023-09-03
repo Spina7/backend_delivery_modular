@@ -1,12 +1,28 @@
-//rol.js NOS AYUDARA A GENERAR LOS ROLES DE CADA UNO DE LOS USUARIOS
+/**
+ * Rol Model.
+ * 
+ * This module manages the roles assigned to users. It provides 
+ * functions for creating and assigning roles to specific users.
+ * 
+ * @module RolModel
+ * @author YourName (or your team/company name)
+ * @date 2023
+ */
 
-//REQUERIR LA BASE DE DATOS
+// Import the database configuration.
 const db = require('../config/config');
 
 const Rol = {};
 
-//CREAR UN NUEVO ROL
+/**
+ * Assigns a specific role to a user.
+ * 
+ * @param {number} id_user - The ID of the user.
+ * @param {number} id_rol - The ID of the role to be assigned.
+ * @param {function} result - Callback function to return the result.
+ */
 Rol.create = (id_user, id_rol, result) => {
+    // SQL query string for inserting a new user-role relation.
     const sql = `
         INSERT INTO
             user_has_roles(
@@ -18,21 +34,22 @@ Rol.create = (id_user, id_rol, result) => {
         VALUES(?, ?, ?, ?)
     `;
 
-    db.query(   //SQL ES LA INSERCION DE DATOS 
+    // Execute the SQL query.
+    db.query(
         sql,
         [id_user, id_rol, new Date(), new Date()],
-        (err, res) =>{      //POR SI HUBO UN ERROR
+        (err, res) => {
             if(err){
-                console.log('Error: ', err);
+                console.log('Error:', err);
                 result(err, null);
             }
-            else{
-                console.log('Usuario Obtenido: ', res.insertId);
+            else {
+                console.log('Assigned Role ID:', res.insertId);
                 result(null, res.insertId);
             }
         }
     )
-
 }
 
-module.exports = Rol; //EXPORTAR LOS "ROLES" A OTRAS PARTES DEL CODIGO
+// Export the Rol model for external usage.
+module.exports = Rol;

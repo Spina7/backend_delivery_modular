@@ -1,12 +1,21 @@
-//CREAR UNA NUEVA DIRECCION
-const  db = require('../config/config');
+/**
+ * Address Model.
+ * 
+ * This module manages the database operations related to addresses associated with users.
+ * It provides functionalities such as retrieving addresses based on user ID and adding a new address.
+ * 
+ */
 
+const db = require('../config/config');
 const Address = {};
 
-
-
+/**
+ * Fetches all addresses associated with a user.
+ * 
+ * @param {string} id_user - The ID of the user.
+ * @param {function} result - Callback function to return the result.
+ */
 Address.findByUser = (id_user, result) => {
-
     const sql = `
         SELECT 
             CONVERT(id, char) AS id,
@@ -35,10 +44,13 @@ Address.findByUser = (id_user, result) => {
     )
 }
 
-
-
-Address.create = (address, result) => {   //CREAR UNA NUEVA DIRECCION
-
+/**
+ * Creates a new address associated with a user.
+ * 
+ * @param {object} address - The address object containing details like address, neighborhood, lat, lng, and user ID.
+ * @param {function} result - Callback function to return the result.
+ */
+Address.create = (address, result) => {
     const sql = `
         INSERT INTO
             address(
@@ -73,11 +85,7 @@ Address.create = (address, result) => {   //CREAR UNA NUEVA DIRECCION
               result(null, res.insertId);
             }
         }
-
     )
-
 }
 
-
-
-module.exports = Address;      //EXPORTAR EL OBJETO 
+module.exports = Address; // Exporting the Address object for external usage.
