@@ -6,8 +6,6 @@
  * before proceeding to the next iteration, making it suitable for asynchronous operations
  * on each array element.
  * 
- * @module asyncArrayIterator
- * @date 2023
  */
 
 /**

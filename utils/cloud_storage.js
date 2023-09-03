@@ -5,8 +5,6 @@
  * specifically to upload files and optionally delete existing ones.
  * It uses Google Cloud Storage SDK to perform these operations.
  * 
- * @module firebaseStorageUtil
- * @date 2023
  */
 
 const { Storage } = require("@google-cloud/storage");
