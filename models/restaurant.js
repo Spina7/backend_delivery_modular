@@ -31,6 +31,74 @@ Restaurant.getAll = (result) => {
     );
 }
 
+/*
+Restaurant.findByNameAndCategory = (name, id_category, result) => {
+    const sql = `
+        SELECT
+            CONVERT(R.id, char) AS id,
+            R.name,
+            R.address,
+            R.initial_working_hour,
+            R.ending_working_hour
+            CONVERT(P.id_category, char) AS id_category 
+        FROM
+            products as P
+        WHERE
+            P.id_category = ? AND LOWER(P.name) LIKE ?
+    `;
+
+    db.query(
+        sql,
+        [
+            id_category,
+            `%${name.toLowerCase()}%` 
+        ],
+        (err, res) => {
+            if (err) {
+                console.log('Error:', err);
+                result(err, null);
+            }
+            else {
+                console.log('Id de la nuevo producto:', res);
+                result(null, res);
+            }
+        }
+    );
+}
+*/
+
+Restaurant.findByName = (name, result) => {
+    const sql = `
+        SELECT
+            CONVERT(R.id, char) AS id,
+            R.name,
+            R.address,
+            R.initial_working_hour,
+            R.ending_working_hour
+        FROM
+            restaurants as R
+        WHERE
+            LOWER(R.name) LIKE ? 
+    `;
+
+    db.query(
+        sql,
+        [
+            `%${name.toLowerCase()}%`
+        ],
+        (err, res) => {
+            if (err) {
+                console.log('Error:', err);
+                result(err, null);
+            }
+            else {
+                console.log('Id del restaurante:', res);
+                result(null, res);
+            }
+        }
+    );
+}
+
 Restaurant.create = (restaurant, result) => {
 
     const sql = `

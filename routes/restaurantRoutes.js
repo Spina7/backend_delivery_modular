@@ -22,4 +22,12 @@ module.exports = (app) => {
   
   // Route to fetch all restaurants
   app.get("/api/restaurants/getAll", passport.authenticate('jwt', { session: false}), restaurantController.getAll);
-};
+
+   // Route to fetch restaurants by category
+   app.get('/api/restaurants/findByCategory/:id_category',  passport.authenticate('jwt', { session: false }), restaurantController.findByCategory);
+  
+   // Route to search restaurants by name within a specific category
+   //app.get('/api/restaurants/findByNameAndCategory/:id_category/:name',  passport.authenticate('jwt', { session: false }), restaurantController.findByNameAndCategory);
+
+   app.get('/api/restaurants/findByName/:name',  passport.authenticate('jwt', { session: false }), restaurantController.findByName);
+  };

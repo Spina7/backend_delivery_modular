@@ -7,8 +7,72 @@
  */
 
 const Restaurant = require('../models/restaurant');
+const storage = require('../utils/cloud_storage');
+const asyncForEach = require('../utils/async_foreach');
 
 module.exports = {
+
+    
+    findByCategory(req, res){
+
+        const id_category = req.params.id_category;
+
+        Restaurant.findByCategory( id_category, (err, data) => {
+            if (err) {
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al momento de listar los restaurantes",
+                    error: err
+                });
+            }
+
+            return res.status(200).json(data); // Changed to 200 for successful read operations
+        });
+    },
+    
+    
+     /**
+     * Searches for restaurants based on a provided product name and category ID.
+     * 
+     * @function
+     * @async
+     * @param {Object} req - Express request object.
+     * @param {Object} res - Express response object.
+     */
+    /*
+     findByNameAndCategory(req, res){
+        const id_category = req.params.id_category;
+        const name = req.params.name;
+
+        Restaurant.findByNameAndCategory( name, id_category, (err, data) => {
+            if (err) {
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al momento de listar los restaurantes",
+                    error: err
+                });
+            }
+
+            return res.status(200).json(data); // Changed to 200 for successful read operations
+        });
+    },
+    */
+
+    findByName(req, res){
+        const name = req.params.name;
+
+        Restaurant.findByName( name, (err, data) => {
+            if (err) {
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al momento de listar los restaurantes",
+                    error: err
+                });
+            }
+
+            return res.status(200).json(data); // Changed to 200 for successful read operations
+        });
+    },
 
     /**
      * Creates a new restaurant.
