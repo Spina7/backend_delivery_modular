@@ -13,6 +13,24 @@ const asyncForEach = require('../utils/async_foreach');
 
 module.exports = {
 
+
+    getAll(req, res) {
+        Product.getAll((err, data) => {
+
+            if (err) {
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al momento de listar los productos",
+                    error: err
+                });
+            }
+
+            return res.status(201).json(data);
+
+        });
+    },
+
+
     /**
      * Fetches a list of products based on the provided category ID.
      * 

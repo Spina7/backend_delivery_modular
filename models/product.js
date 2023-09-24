@@ -3,6 +3,36 @@ const db = require('../config/config');
 
 const Product = {};
 
+
+Product.getAll = (id_restaurant, searchPattern, result) => {
+    const sql = `
+        SELECT
+            CONVERT(P.id, char) AS id,
+            P.name,
+            P.description,
+            P.price,
+            P.image1,
+            P.image2,
+            P.image3,
+            CONVERT(P.id_category, char) AS id_category 
+        FROM
+            products AS P
+        WHERE
+            P.id_restaurant = ? 
+    `;
+
+    db.query(sql, [id_restaurant, `%${searchPattern.toLowerCase()}%`])
+        .then(data => {
+            console.log("Productos:", data);
+            result(null, data);
+        })
+        .catch(err => {
+            console.error("Error:", err);
+            result(err, null);
+        });
+};
+
+
 Product.findByCategory = (id_category, result) => {
     const sql = `
         SELECT
