@@ -330,6 +330,33 @@ getAllUsers(req, res) {
     });
   });
 },
+deleteUser(req, res) {
+  const userId = req.params.id; // Assuming you're passing the user ID as a URL parameter
+
+  User.delete(userId, (err, id) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        return res.status(404).json({
+          success: false,
+          message: `No user found with ID ${userId}`,
+          error: err,
+        });
+      } else {
+        return res.status(500).json({
+          success: false,
+          message: "Error deleting user.",
+          error: err,
+        });
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `User with ID ${id} was deleted successfully.`,
+      data: id,
+    });
+  });
+},
 
 
 

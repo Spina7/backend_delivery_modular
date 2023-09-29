@@ -36,5 +36,8 @@ module.exports = (app, upload) => {
   app.get("/api/users", usersController.getAllUsers);
 
   app.put("/api/users/updatew", usersController.update);
+  // DELETE route for deleting a user
+app.delete("/api/users/:id", usersController.deleteUser);
+
 
 };

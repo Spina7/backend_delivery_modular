@@ -137,31 +137,69 @@ User.create = async (user, result) => {
 };
 
 //ACTUALIZAR DATOS CASO 1 (Nombre, Apellido, Telefono, Imagen)
-User.update = (user, result) => {
+User.update = async (user, result) => {
 
-  const sql = `
-    UPDATE
-      users
-    SET
-      name = ?,
-      lastname = ?,
-      phone = ?,
-      image = ?,
-      updated_at = ?
-    WHERE
-      id  = ? 
-  `;
+  // Check if password is provided in the update payload
+  let hash;
+  if (user.password) {
+    hash = await bcrypt.hash(user.password, 10);
+  }
 
-  db.query(
-    sql,
-    [
+  let sql, parameters;
+
+  // If password is provided, then include it in the update statement
+  if (hash) {
+    sql = `
+      UPDATE
+        users
+      SET
+        name = ?,
+        lastname = ?,
+        phone = ?,
+        image = ?,
+        password = ?,
+        updated_at = ?
+      WHERE
+        id = ? 
+    `;
+
+    parameters = [
+      user.name,
+      user.lastname,
+      user.phone,
+      user.image,
+      hash,
+      new Date(),
+      user.id
+    ];
+  } else {
+    // If no password is provided, then don't include it in the update statement
+    sql = `
+      UPDATE
+        users
+      SET
+        name = ?,
+        lastname = ?,
+        phone = ?,
+        image = ?,
+        updated_at = ?
+      WHERE
+        id = ? 
+    `;
+
+    parameters = [
       user.name,
       user.lastname,
       user.phone,
       user.image,
       new Date(),
       user.id
-    ],
+    ];
+  }
+
+  db.query(
+    sql,
+    parameters,
     (err, res) => {
       if (err) {
         console.log("Error:", err);
@@ -172,8 +210,8 @@ User.update = (user, result) => {
       }
     }
   );
-
 }
+
 
 //ACTUALIZAR DATOS CASO 2 (Nombre, Apellido, Telefono)
 User.updateWithoutImage = (user, result) => {
@@ -361,6 +399,31 @@ User.findAll = (result) => {
     }
   });
 };
+
+User.delete = (id, result) => {
+  const sql = `
+    DELETE FROM
+      users
+    WHERE
+      id = ? 
+  `;
+
+  db.query(sql, [id], (err, res) => {
+    if (err) {
+      console.log("Error:", err);
+      result(err, null);
+    } else {
+      if (res.affectedRows == 0) {
+        // No rows were deleted, meaning no user was found with the given ID
+        result({ kind: "not_found" }, null);
+      } else {
+        console.log("Usuario Eliminado con ID:", id);
+        result(null, id);
+      }
+    }
+  });
+}
+
 
 
 
