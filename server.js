@@ -28,6 +28,7 @@ const ordersSocket = require("./sockets/ordersSocket");
 
 // Route Imports
 const usersRoutes = require("./routes/userRoutes");
+const homeRoutes = require("./routes/homeRoutes");
 const categoriesRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoutes");
 const addressRoutes = require("./routes/addressRoutes");
@@ -77,6 +78,7 @@ addressRoutes(app);
 ordersRoutes(app);
 restaurantRoutes(app);
 mercadoPagoRoutes(app);
+homeRoutes(app);
 
 // Start server listening
 server.listen(port, "0.0.0.0", function () {
