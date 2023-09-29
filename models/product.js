@@ -3,6 +3,41 @@ const db = require('../config/config');
 
 const Product = {};
 
+Product.findAll = (result) => {
+    const sql = `
+        SELECT
+            CONVERT(P.id, char) AS id,
+            P.name,
+            P.description,
+            P.price,
+            P.image1,
+            P.image2,
+            P.image3,
+            CONVERT(P.id_category, char) AS category_id,
+            CONVERT(P.id_restaurant, char) AS restaurant_id,
+            P.created_at,
+            P.updated_at
+        FROM
+            products as P
+        ORDER BY
+            name;
+    `;
+
+    db.query(
+        sql,
+        (err, data) => {
+            if (err) {
+                console.log("Error:", err);
+                result(err, null);
+            } else {
+                console.log("Products:", data);
+                result(null, data);
+            }
+        }
+    );
+}
+
+
 Product.findByCategory = (id_category, result) => {
     const sql = `
         SELECT

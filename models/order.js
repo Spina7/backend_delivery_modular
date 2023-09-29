@@ -3,6 +3,56 @@ const  db = require('../config/config');
 
 const Order = {};
 
+Order.findAll = (result) => {
+  
+    const sql = `
+      SELECT
+        CONVERT(O.id, char) AS order_id,
+        CONVERT(O.id_client, char) AS client_id,
+        CONVERT(O.id_address, char) AS address_id,
+        CONVERT(O.id_delivery, char) AS delivery_id,
+        O.status,
+        O.timestamp,
+        O.lat,
+        O.lng,
+        JSON_ARRAYAGG(
+          JSON_OBJECT(
+            'product_id', CONVERT(P.id, char),
+            'name', P.name,
+            'description', P.description,
+            'image1', P.image1,
+            'image2', P.image2,
+            'image3', P.image3,
+            'price', P.price,
+            'quantity', OHP.quantity
+          )
+        ) AS products
+      FROM
+        orders AS O
+      INNER JOIN
+        order_has_products AS OHP
+      ON 
+        O.id = OHP.id_order
+      INNER JOIN
+        products AS P
+      ON 
+        P.id = OHP.id_product
+      GROUP BY 
+        O.id
+    `;
+  
+    db.query(sql, (err, orders) => {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        console.log("Orders obtained:", orders);
+        result(null, orders);
+      }
+    });
+};
+
+
 Order.findByStatus = (status, result) => {
 
     const sql = `

@@ -3,6 +3,37 @@ const db = require('../config/config');
 
 const Restaurant = {};
 
+Restaurant.findAll = (result) => {
+    const sql = `
+        SELECT
+            CONVERT(R.id, char) AS id,
+            R.name,
+            R.address,
+            R.initial_working_hour,
+            R.ending_working_hour,
+            R.created_at,
+            R.updated_at
+        FROM
+            restaurants as R
+        ORDER BY 
+            name;
+    `;
+
+    db.query(
+        sql,
+        (err, data) => {
+            if (err) {
+                console.log("Error:", err);
+                result(err, null);
+            } else {
+                console.log("Restaurantes:", data);
+                result(null, data);
+            }
+        }
+    );
+}
+
+
 Restaurant.getAll = (result) => {
     const sql = `
         SELECT

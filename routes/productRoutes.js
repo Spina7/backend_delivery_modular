@@ -27,4 +27,5 @@ module.exports = (app, upload) => {
   
   // Route to search products by name within a specific category
   app.get('/api/products/findByNameAndCategory/:id_category/:name',  passport.authenticate('jwt', { session: false }), productsController.findByNameAndCategory);
+  app.get('/api/products',productsController.getAllProducts)
 };

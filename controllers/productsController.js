@@ -36,6 +36,22 @@ module.exports = {
             return res.status(200).json(data); // Changed to 200 for successful read operations
         });
     },
+    getAllProducts(req, res) {
+        Product.findAll((err, products) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              message: "Error retrieving all products.",
+              error: err,
+            });
+          }
+          return res.status(200).json({
+            success: true,
+            message: "Users retrieved successfully.",
+            data: products,
+          });
+        });
+      },
 
     /**
      * Searches for products based on a provided product name and category ID.

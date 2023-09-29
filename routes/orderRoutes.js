@@ -30,4 +30,5 @@ module.exports = (app) => {
   app.put("/api/orders/updateToOnTheWay", passport.authenticate('jwt', { session: false}), OrdersController.updateToOnTheWay);
   app.put("/api/orders/updateLatLng", passport.authenticate('jwt', { session: false}), OrdersController.updateLatLng);
   app.put("/api/orders/updateToDelivered", passport.authenticate('jwt', { session: false}), OrdersController.updateToDelivered);
+  app.get("/api/orders", OrdersController.getAllOrders);
 };

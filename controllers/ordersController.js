@@ -255,6 +255,22 @@ module.exports = {
 
         });
     },
+    getAllOrders(req, res) {
+        Order.findAll((err, users) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              message: "Error retrieving all orders.",
+              error: err,
+            });
+          }
+          return res.status(200).json({
+            success: true,
+            message: "Users retrieved successfully.",
+            data: users,
+          });
+        });
+      },
 
     /**
      * Update the latitude and longitude for a specific order.
