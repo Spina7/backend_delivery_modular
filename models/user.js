@@ -325,6 +325,8 @@ User.findAll = (result) => {
       U.image,
       U.phone,
       U.notification_token,
+      U.created_at,
+      U.updated_at,
       JSON_ARRAYAGG(
         JSON_OBJECT(
           'id', CONVERT(R.id, char),
@@ -345,6 +347,8 @@ User.findAll = (result) => {
       UHR.id_rol = R.id
     GROUP BY 
       U.id
+    ORDER BY 
+      U.name ASC
   `;
 
   db.query(sql, (err, users) => {

@@ -16,7 +16,7 @@ Restaurant.findAll = (result) => {
         FROM
             restaurants as R
         ORDER BY 
-            name;
+            R.name ASC;
     `;
 
     db.query(

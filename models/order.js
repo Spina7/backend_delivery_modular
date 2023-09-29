@@ -39,6 +39,8 @@ Order.findAll = (result) => {
         P.id = OHP.id_product
       GROUP BY 
         O.id
+      ORDER BY
+        O.id DESC
     `;
   
     db.query(sql, (err, orders) => {

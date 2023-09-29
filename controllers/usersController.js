@@ -215,6 +215,39 @@ module.exports = {
     });
   },
 
+  update(req, res) {
+    // Get the user data from the request body
+    const userData = req.body;
+
+    // Call the User.update method to update the user in the database
+    User.update(userData, (err, userId) => {
+        if (err) {
+            return res.status(500).json({
+                success: false,
+                message: "Error updating user.",
+                error: err,
+            });
+        }
+
+        // If update is successful, fetch the updated user data and return it
+        User.findById(userId, (err, updatedUser) => {
+            if (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Error fetching updated user data.",
+                    error: err,
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: "User updated successfully.",
+                data: updatedUser,
+            });
+        });
+    });
+},
+
 //ACTUALIZAR DATOS CASO 2 (Nombre, Apellido, Telefono)
 async updateWithoutImage(req, res) {
 

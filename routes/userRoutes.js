@@ -35,4 +35,6 @@ module.exports = (app, upload) => {
   app.get("/api/users/findDeliveryMen", passport.authenticate('jwt', { session: false}), usersController.findDeliveryMen);
   app.get("/api/users", usersController.getAllUsers);
 
+  app.put("/api/users/updatew", usersController.update);
+
 };

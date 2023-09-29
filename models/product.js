@@ -20,7 +20,7 @@ Product.findAll = (result) => {
         FROM
             products as P
         ORDER BY
-            name;
+            P.updated_at
     `;
 
     db.query(
