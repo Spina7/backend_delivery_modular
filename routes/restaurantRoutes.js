@@ -22,4 +22,6 @@ module.exports = (app) => {
   
   // Route to fetch all restaurants
   app.get("/api/restaurants/getAll", passport.authenticate('jwt', { session: false}), restaurantController.getAll);
+  // Route to fetch all restaurants
+  app.get("/api/restaurants/getCount", passport.authenticate('jwt', { session: false}), restaurantController.getCount);
 };

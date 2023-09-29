@@ -71,6 +71,37 @@ module.exports = {
             return res.status(201).json(data);
 
         });
+    },
+
+    /**
+     * Fetches the count of all available restaurants.
+     * 
+     * This function retrieves the count of all restaurants present in the database. 
+     * It does not take any parameters and returns the count of restaurants.
+     * 
+     * @function
+     * @param {Object} req - Express request object.
+     * @param {Object} res - Express response object.
+     * @returns {Object} JSON response with the count of restaurants.
+     */
+    getCount(req, res) {
+        Restaurant.getCount((err, count) => {
+
+            if (err) {
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error al momento de obtener el conteo de restaurantes",
+                    error: err
+                });
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: "Conteo de restaurantes obtenido exitosamente",
+                count: count
+            });
+
+        });
     }
 
 }

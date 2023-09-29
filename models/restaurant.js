@@ -111,5 +111,26 @@ Restaurant.update = (restaurant, result) => {
 
 }
 
+Restaurant.getCount = (result) => {
+    const sql = `
+        SELECT COUNT(*) as count 
+        FROM restaurants as R;
+    `;
+
+    db.query(
+        sql,
+        (err, data) => {
+            if (err) {
+                console.log("Error:", err);
+                result(err, null);
+            } else {
+                console.log("Total Restaurants:", data[0].count);
+                result(null, data[0].count);
+            }
+        }
+    );
+}
+
+
 
 module.exports = Restaurant;

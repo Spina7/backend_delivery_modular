@@ -281,6 +281,23 @@ async updateNotificationToken(req, res) {
    
   });
 },
+getAllUsers(req, res) {
+  User.findAll((err, users) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Error retrieving all users.",
+        error: err,
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Users retrieved successfully.",
+      data: users,
+    });
+  });
+},
+
 
 
 

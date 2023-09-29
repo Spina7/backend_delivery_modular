@@ -314,5 +314,50 @@ User.updateNotificationToken = (id, token, result) => {
 
 }
 
+User.findAll = (result) => {
+  
+  const sql = `
+    SELECT
+      CONVERT(U.id, char) AS id,
+      U.email, 
+      U.name,
+      U.lastname,
+      U.image,
+      U.phone,
+      U.notification_token,
+      JSON_ARRAYAGG(
+        JSON_OBJECT(
+          'id', CONVERT(R.id, char),
+          'name', R.name,
+          'image', R.image,
+          'route', R.route
+        )
+      ) AS roles
+    FROM
+      users AS U
+    LEFT JOIN 
+      user_has_roles AS UHR
+    ON 
+      UHR.id_user = U.id
+    LEFT JOIN 
+      roles AS R
+    ON 
+      UHR.id_rol = R.id
+    GROUP BY 
+      U.id
+  `;
+
+  db.query(sql, (err, users) => {
+    if (err) {
+      console.log("Error:", err);
+      result(err, null);
+    } else {
+      console.log("Users obtained:", users);
+      result(null, users);
+    }
+  });
+};
+
+
 
 module.exports = User;

@@ -36,7 +36,7 @@ const restaurantRoutes = require("./routes/restaurantRoutes");
 const mercadoPagoRoutes = require("./routes/mercadoPagoRoutes");
 
 // Port configuration, defaults to 3000 if not set in environment
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 // Middleware Configuration
 app.use(logger("dev"));
@@ -79,7 +79,7 @@ restaurantRoutes(app);
 mercadoPagoRoutes(app);
 
 // Start server listening
-server.listen(3000, "0.0.0.0", function () {
+server.listen(port, "0.0.0.0", function () {
   console.log(`NodeJS application started on port ${port}`);
 });
 

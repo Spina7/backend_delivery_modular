@@ -33,4 +33,6 @@ module.exports = (app, upload) => {
 
   // Restricted route for retrieving delivery men details
   app.get("/api/users/findDeliveryMen", passport.authenticate('jwt', { session: false}), usersController.findDeliveryMen);
+  app.get("/api/users", usersController.getAllUsers);
+
 };
