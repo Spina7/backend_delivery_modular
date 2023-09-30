@@ -29,5 +29,8 @@ module.exports = (app, upload) => {
   app.get('/api/products/findByNameAndCategory/:id_category/:name',  passport.authenticate('jwt', { session: false }), productsController.findByNameAndCategory);
 
   // Route to fetch all products
-  app.get("/api/products/getAll", passport.authenticate('jwt', { session: false}), productsController.getAll);
+  app.get("/api/products/findByIdRestaurant/:id_restaurant", passport.authenticate('jwt', { session: false}), productsController.findByIdRestaurant);
+
+  // Nueva ruta para obtener IDs de restaurantes
+  app.get('/api/products/getRestaurantIds', passport.authenticate('jwt', { session: false }), productsController.getRestaurantIds);
 };

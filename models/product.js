@@ -4,7 +4,25 @@ const db = require('../config/config');
 const Product = {};
 
 
-Product.getAll = (id_restaurant, searchPattern, result) => {
+
+Product.getRestaurantIds = (result) => {
+    const sql = `
+      SELECT DISTINCT P.id_restaurant
+      FROM products AS P
+    `;
+  
+    db.query(sql, (err, data) => {
+      if (err) {
+        console.error("Error:", err);
+        result(err, null);
+      } else {
+        console.log("IDs de restaurantes:", data);
+        result(null, data.map((item) => item.id_restaurant.toString())); // Mapea los resultados a una lista de IDs como cadenas
+      }
+    });
+  };
+
+Product.findByIdRestaurant = (id_restaurant, searchPattern, result) => {
     const sql = `
         SELECT
             CONVERT(P.id, char) AS id,

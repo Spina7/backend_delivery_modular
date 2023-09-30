@@ -14,8 +14,32 @@ const asyncForEach = require('../utils/async_foreach');
 module.exports = {
 
 
-    getAll(req, res) {
-        Product.getAll((err, data) => {
+    /**
+    * Fetches a list of restaurant IDs associated with products.
+    * 
+    * @function
+    * @async
+    * @param {Object} req - Express request object.
+    * @param {Object} res - Express response object.
+    */
+    getRestaurantIds(req, res) {
+        Product.getRestaurantIds((err, data) => {
+        if (err) {
+            return res.status(501).json({
+            success: false,
+            message: "Hubo un error al momento de listar los IDs de restaurantes",
+            error: err
+            });
+        }
+  
+        return res.status(200).json(data);
+        });
+    },
+  
+
+
+    findByIdRestaurant(req, res) {
+        Product.findByIdRestaurant((err, data) => {
 
             if (err) {
                 return res.status(501).json({
