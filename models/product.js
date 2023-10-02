@@ -22,7 +22,8 @@ Product.getRestaurantIds = (result) => {
     });
   };
 
-Product.findByIdRestaurant = (id_restaurant, searchPattern, result) => {
+  
+  Product.findByIdRestaurant = (id_restaurant, result) => {
     const sql = `
         SELECT
             CONVERT(P.id, char) AS id,
@@ -39,7 +40,7 @@ Product.findByIdRestaurant = (id_restaurant, searchPattern, result) => {
             P.id_restaurant = ? 
     `;
 
-    db.query(sql, [id_restaurant, `%${searchPattern.toLowerCase()}%`])
+    db.query(sql, [id_restaurant])
         .then(data => {
             console.log("Productos:", data);
             result(null, data);
@@ -49,7 +50,6 @@ Product.findByIdRestaurant = (id_restaurant, searchPattern, result) => {
             result(err, null);
         });
 };
-
 
 Product.findByCategory = (id_category, result) => {
     const sql = `
