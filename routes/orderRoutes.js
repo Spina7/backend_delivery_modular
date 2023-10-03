@@ -31,4 +31,6 @@ module.exports = (app) => {
   app.put("/api/orders/updateLatLng", passport.authenticate('jwt', { session: false}), OrdersController.updateLatLng);
   app.put("/api/orders/updateToDelivered", passport.authenticate('jwt', { session: false}), OrdersController.updateToDelivered);
   app.get("/api/orders", OrdersController.getAllOrders);
+  app.delete("/api/orders/:id", OrdersController.deleteOrder);
+  app.put("/api/orders/updatew", OrdersController.update);
 };

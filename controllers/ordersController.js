@@ -271,6 +271,65 @@ module.exports = {
           });
         });
       },
+      update(req, res) {
+        // Get the order data from the request body
+        const orderData = req.body;
+    
+        // Call the User.update method to update the user in the database
+        Order.update(orderData, (err, orderId) => {
+            if (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Error updating order.",
+                    error: err,
+                });
+            }
+    
+            // If update is successful, fetch the updated user data and return it
+            Order.findById(orderId, (err, updatedOrder) => {
+                if (err) {
+                    return res.status(500).json({
+                        success: false,
+                        message: "Error fetching updated order data.",
+                        error: err,
+                    });
+                }
+    
+                return res.status(200).json({
+                    success: true,
+                    message: "Order updated successfully.",
+                    data: updatedOrder,
+                });
+            });
+        });
+    },
+      deleteOrder(req, res) {
+        const orderId = req.params.id; // Assuming you're passing the user ID as a URL parameter
+      
+        Order.delete(orderId, (err, id) => {
+          if (err) {
+            if (err.kind === "not_found") {
+              return res.status(404).json({
+                success: false,
+                message: `No order found with ID ${orderId}`,
+                error: err,
+              });
+            } else {
+              return res.status(500).json({
+                success: false,
+                message: "Error deleting order.",
+                error: err,
+              });
+            }
+          }
+      
+          return res.status(200).json({
+            success: true,
+            message: `Order with ID ${id} was deleted successfully.`,
+            data: id,
+          });
+        });
+      },
 
     /**
      * Update the latitude and longitude for a specific order.

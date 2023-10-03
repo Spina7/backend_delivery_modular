@@ -54,6 +54,36 @@ Order.findAll = (result) => {
     });
 };
 
+Order.findById = (id, result) => {
+    const sql = `
+    SELECT
+        CONVERT(O.id, char) AS id,
+        O.id_client, 
+        O.id_delivery,
+        O.id_address,
+        O.lat,
+        O.lng,
+        O.status,
+        O.timestamp,
+        O.created_at,
+        O.updated_at
+      FROM
+        orders AS O
+      WHERE
+        O.id = ?
+    `;
+  
+    db.query(sql, [id], (err, order) => {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        console.log("Orden obtenida:", order[0]);
+        result(null, order[0]);
+      }
+    });
+  };
+
 
 Order.findByStatus = (status, result) => {
 
@@ -493,6 +523,70 @@ Order.updateLatLng = (order, result) => {
         }
     )
 }
+
+Order.delete = (id, result) => {
+    const sql = `
+      DELETE FROM
+        orders
+      WHERE
+        id = ? 
+    `;
+  
+    db.query(sql, [id], (err, res) => {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        if (res.affectedRows == 0) {
+          // No rows were deleted, meaning no user was found with the given ID
+          result({ kind: "not_found" }, null);
+        } else {
+          console.log("Orden Eliminada con ID:", id);
+          result(null, id);
+        }
+      }
+    });
+  }
+
+  Order.update = async (order, result) => {
+  
+    let sql, parameters;
+    
+      sql = `
+        UPDATE
+          orders
+        SET
+          id_client = ?,
+          status = ?,
+          id_address = ?
+        WHERE
+          id = ? 
+      `;
+  
+      parameters = [
+        order.client_id,
+        order.status,
+        order.address_id,
+        order.order_id
+      ];
+    
+  
+    db.query(
+      sql,
+      parameters,
+      (err, res) => {
+        if (err) {
+          console.log("Error:", err);
+          result(err, null);
+        } else {
+          console.log("Orden Actualizada", order.order_id);
+          result(null, order.order_id);
+        }
+      }
+    );
+  }
+
+  
 
 
 
