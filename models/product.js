@@ -4,7 +4,7 @@ const db = require('../config/config');
 const Product = {};
 
 
-
+/*
 Product.getRestaurantIds = (result) => {
     const sql = `
       SELECT DISTINCT P.id_restaurant
@@ -50,8 +50,9 @@ Product.getRestaurantIds = (result) => {
             result(err, null);
         });
 };
+*/
 
-Product.findByCategory = (id_category, result) => {
+Product.findByCategory = (id_category, id_restaurant, result) => {
     const sql = `
         SELECT
             CONVERT(P.id, char) AS id,
@@ -61,16 +62,20 @@ Product.findByCategory = (id_category, result) => {
             P.image1,
             P.image2,
             P.image3,
-            CONVERT(P.id_category, char) AS id_category 
+            CONVERT(P.id_category, char) AS id_category,
+            CONVERT(P.id_restaurant, char) AS id_restaurant
         FROM
             products as P
         WHERE
-            P.id_category = ?
+            P.id_category = ? and P.id_restaurant = ?
     `;
 
     db.query(
         sql,
-        [id_category],
+        [
+            id_category, 
+            id_restaurant
+        ],
         (err, res) => {
             if (err) {
                 console.log('Error:', err);

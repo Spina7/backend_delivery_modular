@@ -13,7 +13,7 @@ const asyncForEach = require('../utils/async_foreach');
 
 module.exports = {
 
-
+    
     /**
     * Fetches a list of restaurant IDs associated with products.
     * 
@@ -22,6 +22,7 @@ module.exports = {
     * @param {Object} req - Express request object.
     * @param {Object} res - Express response object.
     */
+    /*
     getRestaurantIds(req, res) {
         Product.getRestaurantIds((err, data) => {
         if (err) {
@@ -53,7 +54,7 @@ module.exports = {
 
         });
     },
-
+    */
 
     /**
      * Fetches a list of products based on the provided category ID.
@@ -65,8 +66,9 @@ module.exports = {
      */
     findByCategory(req, res){
         const id_category = req.params.id_category;
+        const id_restaurant = req.params.id_restaurant;
 
-        Product.findByCategory( id_category, (err, data) => {
+        Product.findByCategory( id_category, id_restaurant, (err, data) => {
             if (err) {
                 return res.status(501).json({
                     success: false,

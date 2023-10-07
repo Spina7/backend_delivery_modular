@@ -23,14 +23,14 @@ module.exports = (app, upload) => {
   app.post('/api/products/create',  passport.authenticate('jwt', { session: false }), upload.array('image', 3), productsController.create);
   
   // Route to fetch products by category
-  app.get('/api/products/findByCategory/:id_category',  passport.authenticate('jwt', { session: false }), productsController.findByCategory);
+  app.get('/api/products/findByCategory/:id_category/:id_restaurant',  passport.authenticate('jwt', { session: false }), productsController.findByCategory);
   
   // Route to search products by name within a specific category
   app.get('/api/products/findByNameAndCategory/:id_category/:name',  passport.authenticate('jwt', { session: false }), productsController.findByNameAndCategory);
 
   // Route to fetch all products
-  app.get("/api/products/findByIdRestaurant/:id_restaurant", passport.authenticate('jwt', { session: false}), productsController.findByIdRestaurant);
+  //app.get("/api/products/findByIdRestaurant/:id_restaurant", passport.authenticate('jwt', { session: false}), productsController.findByIdRestaurant);
 
   // Nueva ruta para obtener IDs de restaurantes
-  app.get('/api/products/getRestaurantIds', passport.authenticate('jwt', { session: false }), productsController.getRestaurantIds);
+  //app.get('/api/products/getRestaurantIds', passport.authenticate('jwt', { session: false }), productsController.getRestaurantIds);
 };
