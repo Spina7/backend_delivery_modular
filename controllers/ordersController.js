@@ -179,7 +179,7 @@ module.exports = {
             User.findById(order.id_delivery, (err, user) => {
 
                 if (user !== undefined && user !== null) {  //VALIDACION EN CASO DE ERROR 
-                    console.log('NOTIFICATION TOKEN', notification_token);
+                    console.log('NOTIFICATION TOKEN', user.notification_token);
                     PushNotificationsController.sendNotification(user.notification_token, {
                         title: 'PEDIDO ASIGNADO',
                         body: 'Te han asignado un nuevo pedido',
