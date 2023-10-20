@@ -74,20 +74,20 @@ module.exports = {
     },
     getAllRestaurants(req, res) {
         Restaurant.findAll((err, users) => {
-          if (err) {
-            return res.status(500).json({
-              success: false,
-              message: "Error retrieving all users.",
-              error: err,
+            if (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Error retrieving all users.",
+                    error: err,
+                });
+            }
+            return res.status(200).json({
+                success: true,
+                message: "Users retrieved successfully.",
+                data: users,
             });
-          }
-          return res.status(200).json({
-            success: true,
-            message: "Users retrieved successfully.",
-            data: users,
-          });
         });
-      },
+    },
 
     /**
      * Fetches the count of all available restaurants.
@@ -117,6 +117,66 @@ module.exports = {
                 count: count
             });
 
+        });
+    },
+    update(req, res) {
+        // Get the user data from the request body
+        const restaurantData = req.body;
+
+        // Call the User.update method to update the user in the database
+        Restaurant.update(restaurantData, (err, restaurantId) => {
+            if (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Error updating restaurant.",
+                    error: err,
+                });
+            }
+
+            // If update is successful, fetch the updated user data and return it
+            Restaurant.findById(restaurantId, (err, updatedRestaurant) => {
+                if (err) {
+                    return res.status(500).json({
+                        success: false,
+                        message: "Error fetching updated restaurant data.",
+                        error: err,
+                    });
+                }
+
+                return res.status(200).json({
+                    success: true,
+                    message: "Restaurant updated successfully.",
+                    data: updatedRestaurant,
+                });
+            });
+        });
+    },
+
+    deleteRestaurant(req, res) {
+        const restaurantId = req.params.id; // Assuming you're passing the user ID as a URL parameter
+
+        Restaurant.delete(restaurantId, (err, id) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    return res.status(404).json({
+                        success: false,
+                        message: `No restaurant found with ID ${restaurantId}`,
+                        error: err,
+                    });
+                } else {
+                    return res.status(500).json({
+                        success: false,
+                        message: "Error deleting restaurant.",
+                        error: err,
+                    });
+                }
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: `Restaurant with ID ${id} was deleted successfully.`,
+                data: id,
+            });
         });
     }
 

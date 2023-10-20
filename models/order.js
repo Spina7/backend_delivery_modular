@@ -6,41 +6,47 @@ const Order = {};
 Order.findAll = (result) => {
   
     const sql = `
-      SELECT
-        CONVERT(O.id, char) AS order_id,
-        CONVERT(O.id_client, char) AS client_id,
-        CONVERT(O.id_address, char) AS address_id,
-        CONVERT(O.id_delivery, char) AS delivery_id,
-        O.status,
-        O.timestamp,
-        O.lat,
-        O.lng,
-        JSON_ARRAYAGG(
-          JSON_OBJECT(
-            'product_id', CONVERT(P.id, char),
-            'name', P.name,
-            'description', P.description,
-            'image1', P.image1,
-            'image2', P.image2,
-            'image3', P.image3,
-            'price', P.price,
-            'quantity', OHP.quantity
-          )
-        ) AS products
-      FROM
-        orders AS O
-      INNER JOIN
-        order_has_products AS OHP
-      ON 
-        O.id = OHP.id_order
-      INNER JOIN
-        products AS P
-      ON 
-        P.id = OHP.id_product
-      GROUP BY 
-        O.id
-      ORDER BY
-        O.id DESC
+    SELECT
+    CONVERT(O.id, char) AS order_id,
+    CONVERT(O.id_client, char) AS client_id,
+    CONVERT(O.id_address, char) AS address_id,
+    CONVERT(O.id_delivery, char) AS delivery_id,
+    O.status,
+    O.timestamp,
+    A.lat AS client_lat,  -- Latitude of the client
+    A.lng AS client_lng,  -- Longitude of the client
+    O.lat AS delivery_lat,    -- Latitude of the delivery location
+    O.lng AS delivery_lng,    -- Longitude of the delivery location
+    JSON_ARRAYAGG(
+      JSON_OBJECT(
+        'product_id', CONVERT(P.id, char),
+        'name', P.name,
+        'description', P.description,
+        'image1', P.image1,
+        'image2', P.image2,
+        'image3', P.image3,
+        'price', P.price,
+        'quantity', OHP.quantity
+      )
+    ) AS products
+FROM
+    orders AS O
+INNER JOIN
+    order_has_products AS OHP
+ON 
+    O.id = OHP.id_order
+INNER JOIN
+    products AS P
+ON 
+    P.id = OHP.id_product
+INNER JOIN
+    address AS A
+ON
+    O.id_address = A.id  -- Joining with the address table to get the client's location
+GROUP BY 
+    O.id
+ORDER BY
+    O.id DESC
     `;
   
     db.query(sql, (err, orders) => {

@@ -18,11 +18,13 @@ const passport = require("passport");
  */
 module.exports = (app) => {
   // Route to create a new restaurant
-  app.post("/api/restaurants/create", passport.authenticate('jwt', { session: false}), restaurantController.create);
+  app.post("/api/restaurants/create", restaurantController.create);
   
   // Route to fetch all restaurants
   app.get("/api/restaurants/getAll", passport.authenticate('jwt', { session: false}), restaurantController.getAll);
   // Route to fetch all restaurants
   app.get("/api/restaurants/getCount", passport.authenticate('jwt', { session: false}), restaurantController.getCount);
   app.get("/api/restaurants", restaurantController.getAllRestaurants);
+  app.put("/api/restaurants/updatew", restaurantController.update);
+  app.delete("/api/restaurants/:id", restaurantController.deleteRestaurant);
 };

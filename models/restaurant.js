@@ -9,6 +9,7 @@ Restaurant.findAll = (result) => {
             CONVERT(R.id, char) AS id,
             R.name,
             R.address,
+            R.phone,
             R.initial_working_hour,
             R.ending_working_hour,
             R.created_at,
@@ -40,6 +41,7 @@ Restaurant.getAll = (result) => {
             CONVERT(R.id, char) AS id,
             R.name,
             R.address,
+            R.phone,
             R.initial_working_hour,
             R.ending_working_hour
         FROM
@@ -69,12 +71,13 @@ Restaurant.create = (restaurant, result) => {
         restaurants(
             name,
             address,
+            phone,
             initial_working_hour,
             ending_working_hour,
             created_at,
             updated_at   
         )
-    VALUES(?, ?, ?, ?, ?, ?)
+    VALUES(?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -82,11 +85,12 @@ Restaurant.create = (restaurant, result) => {
         [
             restaurant.name,
             restaurant.address,
+            restaurant.phone,
             restaurant.initial_working_hour,
             restaurant.ending_working_hour,
             new Date(),
             new Date(),
-        ],
+        ], 
         (err, res) => {
             if (err) {
                 console.log('Error:', err);
@@ -110,6 +114,7 @@ Restaurant.update = (restaurant, result) => {
     SET
         name = ?,
         address = ?,
+        phone = ?,
         initial_working_hour = ?,
         ending_working_hour = ?,
         updated_at = ?
@@ -122,6 +127,7 @@ Restaurant.update = (restaurant, result) => {
         [
             restaurant.name,
             restaurant.address,
+            restaurant.phone,
             restaurant.initial_working_hour,
             restaurant.ending_working_hour,
             new Date(),
@@ -142,6 +148,34 @@ Restaurant.update = (restaurant, result) => {
 
 }
 
+Restaurant.findById = (id, result) => {
+    const sql = `
+    SELECT
+        CONVERT(R.id, char) AS id,
+        R.name, 
+        R.address,
+        R.initial_working_hour,
+        R.ending_working_hour,
+        R.phone
+      FROM
+        restaurants AS R
+      WHERE
+        R.id = ?
+      GROUP BY 
+        R.id
+    `;
+  
+    db.query(sql, [id], (err, user) => {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        console.log("Usuario obtenido:", user[0]);
+        result(null, user[0]);
+      }
+    });
+  }
+
 Restaurant.getCount = (result) => {
     const sql = `
         SELECT COUNT(*) as count 
@@ -161,6 +195,30 @@ Restaurant.getCount = (result) => {
         }
     );
 }
+
+Restaurant.delete = (id, result) => {
+    const sql = `
+      DELETE FROM
+        restaurants
+      WHERE
+        id = ? 
+    `;
+  
+    db.query(sql, [id], (err, res) => {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        if (res.affectedRows == 0) {
+          // No rows were deleted, meaning no user was found with the given ID
+          result({ kind: "not_found" }, null);
+        } else {
+          console.log("Restaurante Eliminado con ID:", id);
+          result(null, id);
+        }
+      }
+    });
+  }
 
 
 

@@ -10,6 +10,7 @@ Product.findAll = (result) => {
             P.name,
             P.description,
             P.price,
+            P.id_restaurant,
             P.image1,
             P.image2,
             P.image3,
