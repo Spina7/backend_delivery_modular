@@ -12,7 +12,7 @@ CREATE TABLE users(
     updated_at TIMESTAMP(0) NOT NULL
 );
 
-/*USE sistema_delivery;*/
+
 
 CREATE TABLE roles(
 	id BIGINT PRIMARY KEY AUTO_INCREMENT,

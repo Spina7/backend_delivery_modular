@@ -10,7 +10,10 @@ Restaurant.getAll = (result) => {
             R.name,
             R.address,
             R.initial_working_hour,
-            R.ending_working_hour
+            R.ending_working_hour,
+            R.image1,
+            R.image2,
+            R.image3
         FROM
             restaurants as R
         ORDER BY 
@@ -74,7 +77,10 @@ Restaurant.findByName = (name, result) => {
             R.name,
             R.address,
             R.initial_working_hour,
-            R.ending_working_hour
+            R.ending_working_hour,
+            R.image1,
+            R.image2,
+            R.image3
         FROM
             restaurants as R
         WHERE
