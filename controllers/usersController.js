@@ -62,6 +62,7 @@ module.exports = {
 
         const data = {
           id: `${myUser.id}`,
+          id_restaurant : `${myUser.id_restaurant}`,
           name: myUser.name,
           lastname: myUser.lastname,
           email: myUser.email,

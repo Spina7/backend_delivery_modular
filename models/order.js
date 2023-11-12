@@ -3,7 +3,7 @@ const  db = require('../config/config');
 
 const Order = {};
 
-Order.findByStatus = (status, result) => {
+Order.findByStatus = (id_restaurant, status, result) => {
 
     const sql = `
         SELECT 
@@ -71,7 +71,7 @@ Order.findByStatus = (status, result) => {
         ON 
             P.id = OHP.id_product
         WHERE 
-            status = ?
+            O.id_restaurant = ? AND O.status = ?
         GROUP BY  
             O.id
         ORDER BY
@@ -80,7 +80,10 @@ Order.findByStatus = (status, result) => {
 
     db.query(
         sql,
-        status,
+        [
+            id_restaurant,
+            status
+        ],
         (err, data) => {
             if (err) {
               console.log("Error:", err);
@@ -289,19 +292,21 @@ Order.create = (order, result) => {   //CREAR UNA NUEVA ORDEN
         INSERT INTO
             orders(
                 id_client,
+                id_restaurant,
                 id_address,
                 status,
                 timestamp,
                 created_at,
                 updated_at
             )
-        VALUES(?, ?, ?, ?, ?, ?)
+        VALUES(?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
         sql,
         [
             order.id_client,
+            order.id_restaurant,
             order.id_address,
             'PAGADO',   //1. PAGADO 2. DESPACHADO 3. EN CAMINO 4. ENTREGADO
             Date.now(),

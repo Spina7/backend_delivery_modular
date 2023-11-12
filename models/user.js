@@ -7,6 +7,7 @@ User.findById = (id, result) => {
   const sql = `
   SELECT
       CONVERT(U.id, char) AS id,
+      U.id_restaurant,
       U.email, 
       U.name,
       U.lastname,
@@ -53,6 +54,7 @@ User.findByEmail = (email, result) => {
   const sql = `
     SELECT
       U.id,
+      U.id_restaurant,
       U.email, 
       U.name,
       U.lastname,

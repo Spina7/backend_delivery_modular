@@ -93,6 +93,7 @@ Product.findByNameAndCategory = (name, id_category, result) => {
     const sql = `
         SELECT
             CONVERT(P.id, char) AS id,
+            CONVERT(P.id_resturant, char) AS id_restaurant,
             P.name,
             P.description,
             P.price,
@@ -131,6 +132,7 @@ Product.create = (product, result) => {
     const sql = `
     INSERT INTO
         products(
+            id_restaurant,
             name,
             description,
             price,
@@ -141,12 +143,13 @@ Product.create = (product, result) => {
             created_at,
             updated_at   
         )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
         sql, 
-        [
+        [   
+            product.id_restaurant,
             product.name,
             product.description,
             product.price,

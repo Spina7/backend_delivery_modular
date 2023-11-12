@@ -23,9 +23,10 @@ module.exports = {
      */
     findByStatus(req, res){
 
+        const id_restaurant = req.params.id_restaurant;
         const status = req.params.status;
 
-        Order.findByStatus(status, (err, data) => {
+        Order.findByStatus(id_restaurant, status, (err, data) => {
 
             if (err) {  //VALIDACION EN CASO DE ERROR 
                 return res.status(501).json({
