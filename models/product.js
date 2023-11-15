@@ -8,14 +8,13 @@ Product.findAll = (result) => {
         SELECT
             CONVERT(P.id, char) AS id,
             P.name,
+            CONVERT(P.id_restaurant, char) AS id_restaurant,
+            CONVERT(P.id_category, char) AS id_category,
             P.description,
             P.price,
-            P.id_restaurant,
             P.image1,
             P.image2,
             P.image3,
-            CONVERT(P.id_category, char) AS category_id,
-            CONVERT(P.id_restaurant, char) AS restaurant_id,
             P.created_at,
             P.updated_at
         FROM
@@ -38,18 +37,51 @@ Product.findAll = (result) => {
     );
 }
 
+Product.findById = (id, result) => {
+    const sql = `
+    SELECT
+            CONVERT(P.id, char) AS id,
+            P.name,
+            CONVERT(P.id_restaurant, char) AS id_restaurant,
+            CONVERT(P.id_category, char) AS id_category,
+            P.description,
+            P.price,
+            P.image1,
+            P.image2,
+            P.image3,
+            P.created_at,
+            P.updated_at
+        FROM
+            products as P
+        WHERE
+            P.id_category = ?
+        GROUP BY 
+            P.id
+    `;
+  
+    db.query(sql, [id], (err, user) => {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        console.log("Producto obtenido:", user[0]);
+        result(null, user[0]);
+      }
+    });
+  }
+
 
 Product.findByCategory = (id_category, result) => {
     const sql = `
         SELECT
             CONVERT(P.id, char) AS id,
             P.name,
+            CONVERT(P.id_restaurant, char) AS id_restaurant,
+            CONVERT(P.id_category, char) AS id_category,
             P.description,
-            P.price,
             P.image1,
             P.image2,
-            P.image3,
-            CONVERT(P.id_category, char) AS id_category 
+            P.image3
         FROM
             products as P
         WHERE
@@ -77,12 +109,12 @@ Product.findByNameAndCategory = (name, id_category, result) => {
         SELECT
             CONVERT(P.id, char) AS id,
             P.name,
+            CONVERT(P.id_restaurant, char) AS id_restaurant,
+            CONVERT(P.id_category, char) AS id_category,
             P.description,
-            P.price,
             P.image1,
             P.image2,
-            P.image3,
-            CONVERT(P.id_category, char) AS id_category 
+            P.image3
         FROM
             products as P
         WHERE
@@ -115,28 +147,24 @@ Product.create = (product, result) => {
     INSERT INTO
         products(
             name,
+            id_restaurant,
+            id_category,
             description,
             price,
-            image1,
-            image2,
-            image3,
-            id_category,
             created_at,
             updated_at   
         )
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES(?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
         sql, 
         [
             product.name,
+            product.id_restaurant,
+            product.id_category,
             product.description,
             product.price,
-            product.image1,
-            product.image2,
-            product.image3,
-            product.id_category,
             new Date(),
             new Date(),
         ],
@@ -162,12 +190,10 @@ Product.update = (product, result) => {
         products
     SET
         name = ?,
+        id_restaurant = ?,
+        id_category = ?,
         description = ?,
         price = ?,
-        image1 = ?,
-        image2 = ?,
-        image3 = ?,
-        id_category = ?,
         updated_at = ?
     WHERE
         id = ?
@@ -177,12 +203,10 @@ Product.update = (product, result) => {
         sql, 
         [
             product.name,
+            product.id_restaurant,
+            product.id_category,
             product.description,
             product.price,
-            product.image1,
-            product.image2,
-            product.image3,
-            product.id_category,
             new Date(),
             product.id,
         ],
@@ -200,6 +224,30 @@ Product.update = (product, result) => {
     )
 
 }
+
+Product.delete = (id, result) => {
+    const sql = `
+      DELETE FROM
+        products
+      WHERE
+        id = ? 
+    `;
+  
+    db.query(sql, [id], (err, res) => {
+      if (err) {
+        console.log("Error:", err);
+        result(err, null);
+      } else {
+        if (res.affectedRows == 0) {
+          // No rows were deleted, meaning no user was found with the given ID
+          result({ kind: "not_found" }, null);
+        } else {
+          console.log("Producto Eliminado con ID:", id);
+          result(null, id);
+        }
+      }
+    });
+  }
 
 
 module.exports = Product;

@@ -78,6 +78,39 @@ module.exports = {
         });
     },
 
+    update(req, res) {
+        // Get the user data from the request body
+        const productData = req.body;
+
+        // Call the User.update method to update the user in the database
+        Product.update(productData, (err, productId) => {
+            if (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Error updating product.",
+                    error: err,
+                });
+            }
+
+            // If update is successful, fetch the updated user data and return it
+            Product.findById(productId, (err, updatedProduct) => {
+                if (err) {
+                    return res.status(500).json({
+                        success: false,
+                        message: "Error fetching updated product data.",
+                        error: err,
+                    });
+                }
+
+                return res.status(200).json({
+                    success: true,
+                    message: "Product updated successfully.",
+                    data: updatedProduct,
+                });
+            });
+        });
+    },
+
     /**
      * Creates a new product entry in the database.
      * For each provided image, it uploads the image to cloud storage,
@@ -89,67 +122,54 @@ module.exports = {
      * @param {Object} res - Express response object.
      */
     create(req, res) {
-        const product = JSON.parse(req.body.product);
-        const files = req.files;
-        
-        let inserts = 0; 
-        
-        if (files.length === 0) {
-            return res.status(501).json({
-                success: false,
-                message: 'Error al registrar el producto no tiene imagenes',
+
+        const product = req.body;
+
+        Product.create(product, (err, id) => {
+
+            if (err) {
+                return res.status(501).json({
+                    success: false,
+                    message: "Hubo un error con el registro del producto",
+                    error: err,
+                });
+            }
+
+            return res.status(201).json({
+                success: true,
+                message: "El producto se creo correctamente",
+                data: `${id}`, // The ID of the newly created restaurant
             });
-        }else {
-            Product.create(product, (err, id_product) => {
-                if (err) {
-                    return res.status(501).json({
+
+        });
+
+    },
+
+    deleteProduct(req, res) {
+        const productId = req.params.id; // Assuming you're passing the user ID as a URL parameter
+
+        Product.delete(productId, (err, id) => {
+            if (err) {
+                if (err.kind === "not_found") {
+                    return res.status(404).json({
                         success: false,
-                        message: 'Hubo un error con el registro del producto',
-                        error: err
+                        message: `No product found with ID ${productId}`,
+                        error: err,
+                    });
+                } else {
+                    return res.status(500).json({
+                        success: false,
+                        message: "Error deleting product.",
+                        error: err,
                     });
                 }
-                
-                product.id = id_product;
+            }
 
-                const start = async () => {
-                    await asyncForEach(files, async (file) => {
-                        const path = `image_${Date.now()}`;
-                        const url = await storage(file, path);
-
-                        if (url != undefined && url != null) {
-                            if (inserts === 0) {
-                                product.image1 = url;
-                            }else if (inserts === 1) {
-                                product.image2 = url;
-                            }else if (inserts === 2) {
-                                product.image3 = url;
-                            }
-                        }
-
-                        await Product.update(product, (err, data) => {
-                            if (err) {
-                                return res.status(501).json({
-                                    success: false,
-                                    message: 'Hubo un error con el registro del producto',
-                                    error: err
-                                });
-                            }
-
-                            inserts++;
-
-                            if (inserts === files.length) {
-                                return res.status(201).json({
-                                    success: true,
-                                    message: 'El producto se almaceno correctamente',
-                                    data: data
-                                });
-                            }
-                        });
-                    });
-                }
-    
-                start();
+            return res.status(200).json({
+                success: true,
+                message: `Product with ID ${id} was deleted successfully.`,
+                data: id,
             });
-        }     
+        });
     }
 }

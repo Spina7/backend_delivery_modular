@@ -20,7 +20,9 @@ const passport = require("passport");
  */
 module.exports = (app, upload) => {
   // Route to create a new product with image uploads
-  app.post('/api/products/create',  passport.authenticate('jwt', { session: false }), upload.array('image', 3), productsController.create);
+  app.post('/api/products/create',  productsController.create);
+  app.put("/api/products/updatew", productsController.update);
+  app.delete("/api/products/:id", productsController.deleteProduct);
   
   // Route to fetch products by category
   app.get('/api/products/findByCategory/:id_category',  passport.authenticate('jwt', { session: false }), productsController.findByCategory);
